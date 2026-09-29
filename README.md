@@ -19,6 +19,32 @@ and can update a price in the master rate list.
 
 ## Running it
 
+### Option A - as a web app (Streamlit)
+
+This is the one to deploy on **Streamlit Cloud**:
+
+1. Push this whole folder to a GitHub repo.
+2. On https://share.streamlit.io, create a new app pointing at that repo,
+   with **Main file path** set to `streamlit_app.py` (not `app.py`).
+   Streamlit Cloud reads `requirements.txt` automatically and installs
+   `streamlit`, `openpyxl`, `pdfplumber`, and `pandas` for you.
+3. Once it's live, upload your rate list `.xlsx` in the app itself (top
+   of the page) - it isn't bundled into the deployment, so you upload it
+   each time you open the app (or keep the browser tab open, since it's
+   cached for that session).
+4. Three tabs: Generate Order Quotation, Extract items from a Sales Bill
+   PDF, and Update a rate list price - each mirrors the command-line
+   version described below.
+
+To run the web version locally instead of deploying it, from inside this
+folder:
+```
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+### Option B - from a terminal (command line)
+
 ```
 python3 app.py
 ```
@@ -103,6 +129,10 @@ quick manual look before the quotation goes out.
 
 ## Files in this folder
 
-- `app.py` - the whole application
+- `app.py` - all the business logic (rate matching, discount rules,
+  Excel generation, PDF extraction, rate updates) + a command-line menu
+- `streamlit_app.py` - the web app version for Streamlit Cloud; imports
+  everything from `app.py` and wraps it in a browser UI
+- `requirements.txt` - packages needed to deploy `streamlit_app.py`
 - `sample_order.csv` - a small example item list you can test option 1 with
 - `README.md` - this file
